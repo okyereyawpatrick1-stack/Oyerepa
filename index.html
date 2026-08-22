@@ -250,6 +250,7 @@ textarea.input{min-height:50px}
 
 
 
+
 <div class="app-layout">
 
   <!-- ============ SIDEBAR ============ -->
@@ -715,6 +716,7 @@ textarea.input{min-height:50px}
     </div>
   </div>
 </div>
+
 
 
 
@@ -2552,15 +2554,20 @@ textarea.input{min-height:50px}
     $("callProgress").textContent = "Calling " + to.length + " number(s)...";
     $("callProgress").className = "status";
 
+    /* Resolve audio: uploaded file takes priority, otherwise use recording */
+    var uploadedFile = $("callAudioFile").files && $("callAudioFile").files[0];
+    var audioFile = uploadedFile;
+    if (!audioFile && recBlob) {
+      audioFile = new File([recBlob], "recording.webm", { type: recBlob.type || "audio/webm" });
+    }
+
     var job;
     if (provider === "hellio") {
       job = Hellio.sendVoice(s, to, { text: text, audioUrl: mediaUrl, voice: "alloy" });
     } else if (provider === "arkesel") {
-      var audioFile = $("callAudioFile").files && $("callAudioFile").files[0];
       job = ArkeselProvider.sendVoice(s, to, { file: audioFile, voiceId: s.arkeselVoiceId });
     } else if (provider === "bmsafrica") {
-      var bmsAudioFile = $("callAudioFile").files && $("callAudioFile").files[0];
-      job = BmsAfrica.sendVoice(s, to, { file: bmsAudioFile, campaign: s.bmsafricaCampaign });
+      job = BmsAfrica.sendVoice(s, to, { file: audioFile, campaign: s.bmsafricaCampaign });
     } else {
       var from = $("callFrom").value.trim() || s.callFrom;
       if (!from) {
