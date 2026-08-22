@@ -246,6 +246,10 @@ textarea.input{min-height:50px}
 
 
 
+
+
+
+
 <div class="app-layout">
 
   <!-- ============ SIDEBAR ============ -->
@@ -286,6 +290,10 @@ textarea.input{min-height:50px}
         <button class="nav-item tab" data-tab="calls">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           Bulk Calls
+        </button>
+        <button class="nav-item tab" data-tab="sms">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Bulk SMS
         </button>
       </div>
       <div class="nav-group">
@@ -546,6 +554,42 @@ textarea.input{min-height:50px}
           <div id="callLog" class="log"></div>
         </div>
       </section>
+      <!-- ============ BULK SMS TAB ============ -->
+      <section id="tab-sms" class="tab-page">
+        <div class="card">
+          <h2>Send Bulk SMS</h2>
+          <p class="hint">Select recipients and send text messages to all members at once.</p>
+          <div class="field">
+            <label>Recipients</label>
+            <div class="btn-row">
+              <button id="smsAddAll" class="btn btn-ghost">Add all members</button>
+              <button id="smsAddSelected" class="btn btn-ghost">Add selected (from Members)</button>
+            </div>
+            <p class="hint" id="smsCount" style="margin-top:8px;">0 recipient(s) selected</p>
+            <textarea id="smsRecipients" class="input" rows="3" placeholder="One phone number per line."></textarea>
+          </div>
+          <div class="field">
+            <label>Message</label>
+            <textarea id="smsMessage" class="input" rows="4" placeholder="Type your SMS message here..."></textarea>
+            <p class="hint" id="smsCharCount">0 characters &middot; 1 SMS</p>
+          </div>
+          <div class="field">
+            <label>Sender ID (max 11 chars, must be approved first)</label>
+            <input id="smsSenderId" class="input" type="text" placeholder="e.g. OYEREPA" maxlength="11">
+            <p class="hint">Register your Sender ID in BMS Africa dashboard under Settings &rarr; Sender ID Management before sending.</p>
+          </div>
+          <div class="card" style="background:var(--bg);border:1px solid var(--border-light);padding:16px;border-radius:var(--radius);margin-bottom:16px;">
+            <h3 style="margin:0 0 8px 0;font-size:15px;font-weight:700;">SMS Wallet</h3>
+            <p class="hint" id="smsBalanceDisplay" style="margin:0 0 8px 0;">Loading balance...</p>
+            <div class="btn-row">
+              <button id="btnRefreshSmsBalance" class="btn btn-ghost" style="font-size:12px;">Refresh Balance</button>
+            </div>
+          </div>
+          <button id="btnSendSms" class="btn btn-primary btn-lg">Send SMS Now</button>
+          <div id="smsProgress" class="status"></div>
+          <div id="smsLog" class="log"></div>
+        </div>
+      </section>
       <section id="tab-settings" class="tab-page">
         <div id="settingsGate" class="card" style="text-align:center;max-width:400px;margin:40px auto;">
           <div style="width:64px;height:64px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
@@ -653,6 +697,10 @@ textarea.input{min-height:50px}
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/></svg>
       <span>Calls</span>
     </button>
+    <button class="bottom-nav-item tab" data-tab="sms">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>SMS</span>
+    </button>
   </nav>
 </div>
 <div id="toast" class="toast"></div>
@@ -667,6 +715,10 @@ textarea.input{min-height:50px}
     </div>
   </div>
 </div>
+
+
+
+
 
 
 
@@ -1306,6 +1358,8 @@ textarea.input{min-height:50px}
 
   var VOICE_URL = "https://api.mnotify.com/api/voice/quick";
   var BALANCE_URL = "https://api.mnotify.com/api/balance/voice";
+  var SMS_URL = "https://api.mnotify.com/api/sms/quick";
+  var SMS_BALANCE_URL = "https://api.mnotify.com/api/balance/sms";
   var CALLS_URL = "https://api.mnotify.com/api/calls";
   function err(message) {
     var e = new Error(message);
@@ -1587,8 +1641,81 @@ textarea.input{min-height:50px}
     return Promise.resolve({ url: "https://app.bms.africa/dashboard/voice/overview" });
   }
 
+  /* --- SMS --- */
+  function sendSms(s, recipients, message, sender) {
+    if (!s.bmsafricaKey) return Promise.reject(err("Missing BMS Africa API key."));
+    if (!recipients.length) return Promise.reject(err("No valid recipient numbers."));
+    if (!message) return Promise.reject(err("Message is empty."));
+    var bmsNumbers = recipients.map(toBmsNumber);
+    var senderId = sender || s.bmsafricaCampaign || "OYEREPA LADIES";
+    var payload = { recipient: bmsNumbers, sender: senderId, message: message };
+    return proxyFetch(s, SMS_URL + "?key=" + encodeURIComponent(s.bmsafricaKey), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      var d = res.data || {};
+      if (res.status >= 400 || d.status === "error" || d.status === "failed") {
+        var msg = d.message || d.errorMessage || d.error || JSON.stringify(d);
+        if (/auth|unauthorized|invalid.*key/i.test(msg)) throw err("BMS Africa authentication failed. Check your API key.");
+        throw err("BMS Africa SMS: " + msg);
+      }
+      var summary = d.summary || {};
+      return {
+        total: bmsNumbers.length,
+        sent: summary.total_sent || bmsNumbers.length,
+        campaignId: summary._id || null,
+        creditsUsed: summary.credit_used || null,
+        creditsLeft: summary.credit_left || null,
+        raw: d,
+        message: d.message || ("SMS sent. Credits used: " + (summary.credit_used || "?"))
+      };
+    });
+  }
+
+  function getSmsBalance(s) {
+    if (!s.bmsafricaKey) return Promise.reject(err("Missing BMS Africa API key."));
+    return proxyFetch(s, SMS_BALANCE_URL + "?key=" + encodeURIComponent(s.bmsafricaKey), {
+      method: "GET",
+      headers: {}
+    }).then(function (res) {
+      var d = res.data || {};
+      if (res.status === 200 && d.status === "success") {
+        var credits = d.balance || 0;
+        return { credits: credits, raw: d };
+      }
+      throw err(d.message || d.error || "Failed to get SMS balance");
+    });
+  }
+
+  function getSmsReport(s, campaignId) {
+    if (!s.bmsafricaKey) return Promise.reject(err("Missing BMS Africa API key."));
+    if (!campaignId) return Promise.reject(err("No campaign ID available."));
+    var url = CALLS_URL + "/" + encodeURIComponent(campaignId) + "?key=" + encodeURIComponent(s.bmsafricaKey);
+    return proxyFetch(s, url, { method: "GET", headers: {} }).then(function (res) {
+      var d = res.data || {};
+      if (res.status === 200 && (d.status === "success" || Array.isArray(d))) {
+        var list = Array.isArray(d) ? d : (d.data || d.delivery_report || d.calls || []);
+        var delivered = [], failed = [], pending = [], all = [];
+        list.forEach(function (r) {
+          var st = (r.status || "").toLowerCase();
+          var entry = { phone: r.recipient || r.phone || "", status: st };
+          all.push(entry);
+          if (st === "received" || st === "delivered") delivered.push(entry);
+          else if (st === "failed" || st === "undelivered") failed.push(entry);
+          else pending.push(entry);
+        });
+        return { all: all, delivered: delivered, failed: failed, pending: pending, campaignId: campaignId };
+      }
+      throw err(d.message || d.error || "Failed to get SMS report");
+    });
+  }
+
   global.BmsAfrica = {
     sendVoice: sendVoice,
+    sendSms: sendSms,
+    getSmsBalance: getSmsBalance,
+    getSmsReport: getSmsReport,
     testConnection: testConnection,
     getBalance: getBalance,
     getCallReport: getCallReport,
@@ -2561,6 +2688,100 @@ textarea.input{min-height:50px}
     });
   }
 
+  /* ---------------- Bulk SMS ---------------- */
+  function updateSmsCounts() {
+    var smsN = AT.parseNumbers($("smsRecipients").value).length;
+    $("smsCount").textContent = smsN + " recipient(s) selected";
+  }
+
+  function updateSmsCharCount() {
+    var msg = $("smsMessage").value;
+    var len = msg.length;
+    var smsParts = len <= 160 ? 1 : Math.ceil(len / 153);
+    $("smsCharCount").textContent = len + " character(s) \u00b7 " + smsParts + " SMS" + (smsParts > 1 ? "s" : "");
+  }
+
+  function fillSmsRecipients() {
+    var members = Store.getMembers();
+    var ids = Object.keys(selectedMemberIds).filter(function (id) { return selectedMemberIds[id]; });
+    var chosen = ids.length ? members.filter(function (m) { return selectedMemberIds[m.id]; }) : members;
+    if (!chosen.length) { toast("No members registered."); return; }
+    var nums = chosen.map(function (m) { return m.phone; });
+    var existing = $("smsRecipients").value ? $("smsRecipients").value.split(/[\n,;]+/).map(function (s) { return s.trim(); }).filter(Boolean) : [];
+    var merged = existing.concat(nums);
+    var seen = {}, out = [];
+    merged.forEach(function (n) { if (!seen[n]) { seen[n] = 1; out.push(n); } });
+    $("smsRecipients").value = out.join("\n");
+    updateSmsCounts();
+    toast("Added " + nums.length + " member(s) to SMS list");
+  }
+
+  function refreshSmsBalance() {
+    var s = Store.getSettings();
+    var p = s.provider || "bmsafrica";
+    if (p !== "bmsafrica") {
+      $("smsBalanceDisplay").textContent = "SMS balance shown for BMS Africa only.";
+      return;
+    }
+    if (!s.bmsafricaKey) {
+      $("smsBalanceDisplay").textContent = "Add your BMS Africa API key in Settings first.";
+      return;
+    }
+    $("smsBalanceDisplay").textContent = "Loading balance...";
+    BmsAfrica.getSmsBalance(s).then(function (b) {
+      $("smsBalanceDisplay").innerHTML = "<strong>" + b.credits + " SMS credits</strong> remaining";
+    }).catch(function (e) {
+      $("smsBalanceDisplay").textContent = "Could not load balance: " + e.message;
+    });
+  }
+
+  function sendSms() {
+    var btn = $("btnSendSms");
+    var s = Store.getSettings();
+    var to = AT.parseNumbers($("smsRecipients").value);
+    var message = $("smsMessage").value.trim();
+    var rawSender = $("smsSenderId").value.trim() || s.bmsafricaCampaign || "OYEREPA";
+    var senderId = rawSender.substring(0, 11);
+
+    if (!s.bmsafricaKey) {
+      $("smsProgress").textContent = "Please add your BMS Africa API Key in Settings first.";
+      $("smsProgress").className = "status error";
+      return;
+    }
+    if (!to.length) {
+      $("smsProgress").textContent = "Add at least one recipient.";
+      $("smsProgress").className = "status error";
+      return;
+    }
+    if (!message) {
+      $("smsProgress").textContent = "Type a message to send.";
+      $("smsProgress").className = "status error";
+      return;
+    }
+
+    btn.disabled = true;
+    $("smsLog").innerHTML = "";
+    $("smsProgress").textContent = "Sending SMS to " + to.length + " number(s)...";
+    $("smsProgress").className = "status";
+
+    BmsAfrica.sendSms(s, to, message, senderId).then(function (r) {
+      logTo($("smsLog"), "OK: " + r.message, "ok");
+      logTo($("smsLog"), "SMS sent to " + r.sent + " number(s).", "info");
+      if (r.creditsLeft !== null) {
+        logTo($("smsLog"), "Credits remaining: " + r.creditsLeft, "info");
+      }
+      $("smsProgress").textContent = "Done. SMS sent to " + r.sent + " number(s).";
+      $("smsProgress").className = "status ok";
+      refreshSmsBalance();
+    }).catch(function (e) {
+      logTo($("smsLog"), "ERROR: " + e.message, "err");
+      $("smsProgress").textContent = "Failed: " + e.message;
+      $("smsProgress").className = "status error";
+    }).then(function () {
+      btn.disabled = false;
+    });
+  }
+
   /* ---------------- Settings ---------------- */
   function loadSettingsIntoForm() {
     S = Store.getSettings();
@@ -2733,6 +2954,14 @@ textarea.input{min-height:50px}
       else toast("No campaign to refresh. Send a call first.");
     });
 
+    /* SMS */
+    $("smsRecipients").addEventListener("input", updateSmsCounts);
+    $("smsMessage").addEventListener("input", updateSmsCharCount);
+    $("smsAddAll").addEventListener("click", fillSmsRecipients);
+    $("smsAddSelected").addEventListener("click", fillSmsRecipients);
+    $("btnSendSms").addEventListener("click", sendSms);
+    $("btnRefreshSmsBalance").addEventListener("click", refreshSmsBalance);
+
     /* Settings */
     $("setProvider").addEventListener("change", function () {
       applyProviderUI();
@@ -2823,12 +3052,16 @@ textarea.input{min-height:50px}
   updateCallCounts();
   updateShareLink();
   refreshBalance();
+  updateSmsCounts();
+  updateSmsCharCount();
+  refreshSmsBalance();
+  if ($("smsSenderId")) $("smsSenderId").value = S.bmsafricaCampaign || "OYEREPA LADIES";
 })();
 </script>
 <script>
 if ("serviceWorker" in navigator) { navigator.serviceWorker.register("./sw.js").catch(function(){}); }
 (function(){var sb=document.getElementById('sidebar'),ov=document.getElementById('sidebarOverlay'),cl=document.getElementById('sidebarClose'),mn=document.getElementById('btnOpenMenu');function openSb(){sb.classList.add('open');ov.classList.add('open')}function closeSb(){sb.classList.remove('open');ov.classList.remove('open')}if(mn)mn.addEventListener('click',function(e){if(window.innerWidth<1024){e.preventDefault();openSb()}});if(cl)cl.addEventListener('click',closeSb);if(ov)ov.addEventListener('click',closeSb);document.querySelectorAll('.nav-item[data-tab],.bottom-nav-item[data-tab]').forEach(function(b){b.addEventListener('click',function(){if(window.innerWidth<1024)closeSb()});});})();
-var _titles={dashboard:'Dashboard',members:'Members',attendance:'Attendance',dues:'Dues',calls:'Bulk Calls',settings:'Settings'};document.addEventListener('click',function(e){var t=e.target.closest('[data-tab]');if(t){var n=t.dataset.tab;var pt=document.getElementById('pageTitle');if(pt)pt.textContent=_titles[n]||n;document.querySelectorAll('.bottom-nav-item[data-tab]').forEach(function(b){b.classList.toggle('active',b.dataset.tab===n);});}});
+var _titles={dashboard:'Dashboard',members:'Members',attendance:'Attendance',dues:'Dues',calls:'Bulk Calls',sms:'Bulk SMS',settings:'Settings'};document.addEventListener('click',function(e){var t=e.target.closest('[data-tab]');if(t){var n=t.dataset.tab;var pt=document.getElementById('pageTitle');if(pt)pt.textContent=_titles[n]||n;document.querySelectorAll('.bottom-nav-item[data-tab]').forEach(function(b){b.classList.toggle('active',b.dataset.tab===n);});}});
 </script>
 </body>
 </html>
