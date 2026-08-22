@@ -1,0 +1,474 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#5C1A2A">
+<meta name="description" content="OYEREPA LADIES &amp; FUN CLUB - Organization Management Platform">
+<title>OYEREPA LADIES - Management Platform</title>
+<link rel="icon" href="logo.jpeg">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="logo.jpeg" alt="OYEREPA" class="sidebar-logo">
+      <div class="sidebar-brand">
+        <span class="sidebar-title">OYEREPA</span>
+        <select id="orgSwitcher" class="org-switcher">
+          <option value="oyerepa-ladies">OYEREPA LADIES</option>
+          <option value="oyerepa-funclub">OYEREPA FUN CLUB</option>
+        </select>
+      </div>
+      <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">&times;</button>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <div class="nav-group-label">MAIN</div>
+        <button class="nav-item tab active" data-tab="dashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-item tab" data-tab="members">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Members
+        </button>
+        <button class="nav-item tab" data-tab="attendance">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Attendance
+        </button>
+        <button class="nav-item tab" data-tab="dues">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Dues
+        </button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">COMMUNICATION</div>
+        <button class="nav-item tab" data-tab="calls">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Bulk Calls
+        </button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">SYSTEM</div>
+        <button class="nav-item tab" data-tab="settings">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </button>
+      </div>
+    </nav>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ============ MAIN AREA ============ -->
+  <div class="main-area">
+    <header class="topbar">
+      <button id="btnOpenMenu" class="hamburger" aria-label="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <h2 class="page-title" id="pageTitle">Dashboard</h2>
+      <div class="topbar-right">
+        <span class="topbar-org" id="topbarOrg">OYEREPA LADIES</span>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- ============ DASHBOARD TAB ============ -->
+      <section id="tab-dashboard" class="tab-page active">
+        <div class="dashboard-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon maroon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Total Members</span>
+              <span class="kpi-value" id="dashMemberCount">0</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon gold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Total Dues Collected</span>
+              <span class="kpi-value" id="dashDuesTotal">GHS 0.00</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon green">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Dues Payments</span>
+              <span class="kpi-value" id="dashDuesCount">0</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon blue">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Attendance Sessions</span>
+              <span class="kpi-value" id="dashAttCount">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Quick Actions</h2>
+          <p class="hint">Navigate to any section using the sidebar or quick links below.</p>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="document.querySelector('[data-tab=members]').click()">Manage Members</button>
+            <button class="btn btn-primary" onclick="document.querySelector('[data-tab=attendance]').click()">Mark Attendance</button>
+            <button class="btn btn-primary" onclick="document.querySelector('[data-tab=dues]').click()">Record Dues</button>
+            <button class="btn btn-primary" onclick="document.querySelector('[data-tab=calls]').click()">Bulk Calls</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MEMBERS TAB ============ -->
+      <section id="tab-members" class="tab-page">
+        <div class="card">
+          <h2>Register Members</h2>
+          <p class="hint">Add members manually or import from a CSV file. These members are used for attendance, dues, and bulk calls.</p>
+          <div class="field">
+            <label>Member Name</label>
+            <input id="memberName" class="input" type="text" placeholder="e.g. Akosua Mensah">
+          </div>
+          <div class="field">
+            <label>Phone Number</label>
+            <input id="memberPhone" class="input" type="tel" placeholder="e.g. 0241234567">
+          </div>
+          <div class="field">
+            <label>Location</label>
+            <input id="memberLocation" class="input" type="text" placeholder="e.g. Kumasi, Ashanti Region">
+          </div>
+          <div class="btn-row">
+            <button id="btnAddMember" class="btn btn-primary">Add Member</button>
+            <button id="btnImportMemberCsv" class="btn">Import CSV</button>
+            <input type="file" id="fileMemberCsv" accept=".csv,text/csv" hidden>
+          </div>
+          <p class="hint" style="margin-top:8px;">CSV format: <code>name,phone,location</code> (header row optional)</p>
+          <div id="memberAddStatus" class="status"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h2>Members (<span id="memberCount">0</span>)</h2>
+            <div class="btn-row small">
+              <button id="btnSelectAllMembers" class="btn btn-ghost">Select all</button>
+              <button id="btnClearMemberSel" class="btn btn-ghost">Clear</button>
+              <button id="btnDeleteMemberSel" class="btn btn-danger">Delete selected</button>
+              <button id="btnCallMembers" class="btn btn-primary">Call Selected</button>
+            </div>
+          </div>
+          <input type="search" id="memberSearch" class="input" placeholder="Search name, number, or location...">
+          <div id="memberList" class="contact-list" style="margin-top:12px;"></div>
+        </div>
+      </section>
+      <!-- ============ ATTENDANCE TAB ============ -->
+      <section id="tab-attendance" class="tab-page">
+        <div class="card">
+          <h2>Mark Attendance</h2>
+          <p class="hint">Select a date and mark each member as present or absent.</p>
+          <div class="field">
+            <label>Date</label>
+            <input id="attendanceDate" class="input" type="date">
+          </div>
+          <div id="attendanceList" class="contact-list" style="margin-top:12px;"></div>
+          <div class="btn-row" style="margin-top:16px;">
+            <button id="btnSaveAttendance" class="btn btn-primary">Save Attendance</button>
+            <button id="btnLoadAttendance" class="btn">Load</button>
+          </div>
+          <div id="attendanceStatus" class="status"></div>
+        </div>
+        <div class="card">
+          <h2>Attendance Report</h2>
+          <p class="hint">View attendance records within a date range.</p>
+          <div class="field">
+            <label>From</label>
+            <input id="attReportFrom" class="input" type="date">
+          </div>
+          <div class="field">
+            <label>To</label>
+            <input id="attReportTo" class="input" type="date">
+          </div>
+          <button id="btnAttReport" class="btn btn-primary" style="margin-top:8px;">Generate Report</button>
+          <div id="attReportResult" class="status" style="margin-top:12px;"></div>
+          <div id="attReportTable" style="margin-top:12px;"></div>
+        </div>
+      </section>
+
+      <!-- ============ DUES TAB ============ -->
+      <section id="tab-dues" class="tab-page">
+        <div class="card">
+          <h2>Record Dues Payment</h2>
+          <p class="hint">Track member dues and payments.</p>
+          <div class="field">
+            <label>Select Member</label>
+            <select id="duesMemberSelect" class="input"><option value="">-- choose member --</option></select>
+          </div>
+          <div class="field">
+            <label>Amount (GHS)</label>
+            <input id="duesAmount" class="input" type="number" min="0" step="0.01" placeholder="e.g. 50">
+          </div>
+          <div class="field">
+            <label>Date</label>
+            <input id="duesDate" class="input" type="date">
+          </div>
+          <div class="field">
+            <label>Note (optional)</label>
+            <input id="duesNote" class="input" type="text" placeholder="e.g. Monthly dues for August">
+          </div>
+          <button id="btnAddDues" class="btn btn-primary" style="margin-top:8px;">Record Payment</button>
+          <div id="duesAddStatus" class="status"></div>
+        </div>
+        <div class="card">
+          <h2>Dues Report</h2>
+          <p class="hint">View dues collected within a date range.</p>
+          <div class="field">
+            <label>From</label>
+            <input id="duesReportFrom" class="input" type="date">
+          </div>
+          <div class="field">
+            <label>To</label>
+            <input id="duesReportTo" class="input" type="date">
+          </div>
+          <button id="btnDuesReport" class="btn btn-primary" style="margin-top:8px;">Generate Report</button>
+          <div id="duesReportResult" class="status" style="margin-top:12px;"></div>
+          <div id="duesReportTable" style="margin-top:12px;"></div>
+        </div>
+        <div class="card">
+          <h2>Dues Summary</h2>
+          <div id="duesSummary" class="hint">Loading...</div>
+          <div id="duesMemberBreakdown" class="contact-list" style="margin-top:8px;"></div>
+        </div>
+      </section>
+      <!-- ============ BULK CALLS TAB ============ -->
+      <section id="tab-calls" class="tab-page">
+        <div class="card">
+          <h2>Send Bulk Voice Calls</h2>
+          <p class="hint">Select recipients and send voice calls to all members at once.</p>
+          <div class="field">
+            <label>Recipients</label>
+            <div class="btn-row">
+              <button id="callAddAll" class="btn btn-ghost">Add all members</button>
+              <button id="callAddSelected" class="btn btn-ghost">Add selected (from Members)</button>
+            </div>
+            <p class="hint" id="callCount" style="margin-top:8px;">0 recipient(s) selected</p>
+            <textarea id="callRecipients" class="input" rows="3" placeholder="One phone number per line."></textarea>
+          </div>
+          <div class="field" id="callTextField">
+            <label>Voice message text (text-to-speech)</label>
+            <textarea id="callText" class="input" rows="3" placeholder="Type the message that will be spoken, e.g. Hello, this is Oyerepa Ladies. Our meeting starts at 10am."></textarea>
+            <p class="hint" id="callTextHint">Hellio reads this message aloud automatically.</p>
+          </div>
+          <div class="field" id="callAudioField">
+            <label>Audio file to send (MP3 or WAV)</label>
+            <input id="callAudioFile" class="input" type="file" accept=".mp3,.wav,.m4a,.aac,.ogg,.webm,audio/*">
+            <p class="hint" id="callAudioFileHint">Record one below, tap Download, then pick it here.</p>
+          </div>
+          <div class="field" id="callFromField">
+            <label>Caller ID (only for Africa's Talking)</label>
+            <input id="callFrom" class="input" type="text" placeholder="e.g. 23320xxxxxxx">
+          </div>
+          <div class="field">
+            <label>Record an announcement (optional)</label>
+            <div class="btn-row">
+              <button id="btnRecStart" class="btn btn-record">Start Recording</button>
+              <button id="btnRecStop" class="btn btn-danger" disabled>Stop</button>
+              <button id="btnRecPlay" class="btn" disabled>Play</button>
+              <button id="btnRecDownload" class="btn" disabled>Download</button>
+            </div>
+            <p id="recTimer" class="hint">Not recording</p>
+          </div>
+          <div class="field" id="callMediaField">
+            <label>Hosted announcement / voice flow URL (optional)</label>
+            <input id="callMediaUrl" class="input" type="url" placeholder="https://your-site/announcement.mp3">
+            <p class="hint" id="callMediaUrlHint">Used by Hellio when the message text above is empty.</p>
+          </div>
+          <div class="card" id="voiceWalletCard" style="background:var(--bg);border:1px solid var(--border-light);padding:16px;border-radius:var(--radius);margin-bottom:16px;">
+            <h3 style="margin:0 0 8px 0;font-size:15px;font-weight:700;">Voice Wallet</h3>
+            <p class="hint" id="voiceBalanceDisplay" style="margin:0 0 8px 0;">Loading balance...</p>
+            <div class="btn-row">
+              <button id="btnRefreshBalance" class="btn btn-ghost" style="font-size:12px;">Refresh Balance</button>
+              <button id="btnTopUp" class="btn btn-primary" style="font-size:12px;">Top Up Wallet</button>
+            </div>
+          </div>
+          <div id="callReportCard" class="hidden" style="background:var(--bg);border:1px solid var(--border-light);padding:16px;border-radius:var(--radius);margin-bottom:16px;">
+            <h3 style="margin:0 0 8px 0;font-size:15px;font-weight:700;">Call Report</h3>
+            <div id="callReportSummary" style="font-size:13px;margin-bottom:8px;"></div>
+            <div class="btn-row" style="margin-bottom:8px;">
+              <button id="btnRefreshReport" class="btn btn-ghost" style="font-size:12px;">Refresh Report</button>
+            </div>
+            <div id="callReportList" style="max-height:300px;overflow-y:auto;font-size:13px;"></div>
+          </div>
+          <button id="btnCallAll" class="btn btn-primary btn-lg">Call All Now</button>
+          <div id="callProgress" class="status"></div>
+          <div id="callLog" class="log"></div>
+        </div>
+      </section>
+      <section id="tab-settings" class="tab-page">
+        <div id="settingsGate" class="card" style="text-align:center;max-width:400px;margin:40px auto;">
+          <div style="width:64px;height:64px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h2 style="margin-bottom:4px;">Settings Locked</h2>
+          <p class="hint">Enter password to access settings.</p>
+          <div class="field" style="max-width:300px;margin:16px auto;">
+            <input id="settingsPassword" class="input" type="password" placeholder="Enter password" style="text-align:center;">
+          </div>
+          <button id="btnUnlockSettings" class="btn btn-primary">Unlock</button>
+          <div id="unlockStatus" class="status"></div>
+        </div>
+        <div id="settingsContent" class="hidden">
+        <div class="card">
+          <h2>Voice Provider</h2>
+          <p class="hint">Pick which company sends your calls. <strong>BMS Africa</strong> (powered by mNotify) is recommended.</p>
+          <div class="field">
+            <label>Provider</label>
+            <select id="setProvider" class="input">
+              <option value="bmsafrica">BMS Africa (mNotify) - recommended</option>
+              <option value="arkesel">Arkesel (top up any amount)</option>
+              <option value="hellio">Hellio Messaging</option>
+              <option value="africastalking">Africa's Talking</option>
+            </select>
+          </div>
+          <div id="provider-bmsafrica">
+            <div class="field">
+              <label>BMS Africa API Key</label>
+              <input id="setBmsAfricaKey" class="input" type="password" placeholder="Your BMS Africa API key">
+            </div>
+            <div class="setup-steps">
+              <h3>How to get your BMS Africa API key</h3>
+              <ol>
+                <li>Go to <strong>app.bms.africa</strong> and register.</li>
+                <li>In dashboard, go to <strong>Settings &rarr; Developer</strong> and copy your API Key.</li>
+                <li>Top up voice credits under <strong>Wallet</strong>.</li>
+                <li>Paste the key above, then tap <strong>Test API connection</strong>.</li>
+              </ol>
+            </div>
+          </div>
+          <div id="provider-arkesel" class="hidden">
+            <div class="field"><label>Arkesel API Key</label><input id="setArkeselKey" class="input" type="password" placeholder="Your Arkesel api-key"></div>
+            <div class="field"><label>Voice ID / Caller ID (optional)</label><input id="setArkeselVoiceId" class="input" type="text" placeholder="e.g. 0540000000"></div>
+            <div class="field"><label>Sender ID</label><input id="setArkeselSender" class="input" type="text" placeholder="OYEREPA LADIES"></div>
+          </div>
+          <div id="provider-hellio" class="hidden">
+            <div class="field"><label>Hellio API Token</label><input id="setHellioToken" class="input" type="password" placeholder="hellio_..."></div>
+          </div>
+          <div id="provider-at" class="hidden">
+            <div class="field"><label>Username</label><input id="setUsername" class="input" type="text" placeholder="sandbox or your username"></div>
+            <div class="field"><label>API Key</label><input id="setApiKey" class="input" type="password" placeholder="sk_..."></div>
+            <div class="field"><label>Mode</label><select id="setMode" class="input"><option value="sandbox">Sandbox (test)</option><option value="live">Live (real)</option></select></div>
+            <div class="field"><label>Default Voice Caller ID</label><input id="setCallFrom" class="input" type="text" placeholder="23320xxxxxxx"></div>
+          </div>
+          <div class="field">
+            <label>Proxy URL (REQUIRED to send)</label>
+            <input id="setProxyUrl" class="input" type="url" placeholder="https://your-proxy.workers.dev">
+            <p class="hint">Deploy the Cloudflare Worker once (file <strong>worker.js</strong>), then paste its URL here.</p>
+          </div>
+          <button id="btnTestApi" class="btn">Test API connection</button>
+          <div id="apiTestResult" class="status"></div>
+        </div>
+        <div class="card">
+          <h2>Share settings &amp; data on all your phones</h2>
+          <p class="hint">Set up Firebase Realtime Database to share settings, members, attendance, and dues across devices.</p>
+          <div class="field">
+            <label>Firebase Realtime Database URL</label>
+            <input id="setFbUrl" class="input" type="text" placeholder="https://your-app-default-rtdb.firebaseio.com">
+          </div>
+          <div class="field">
+            <label>Share link password (optional)</label>
+            <input id="setFbPassword" class="input" type="password" placeholder="Leave empty for none">
+            <p class="hint" id="fbShareLink"></p>
+          </div>
+          <div class="btn-row">
+            <button id="btnSaveSettings" class="btn btn-primary">Save Settings</button>
+            <button id="btnSyncNow" class="btn">Sync from cloud</button>
+            <button id="btnClearLocal" class="btn btn-danger">Reset this device</button>
+          </div>
+          <div id="settingsStatus" class="status"></div>
+        </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bottom-nav-item tab active" data-tab="dashboard">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="bottom-nav-item tab" data-tab="members">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <span>Members</span>
+    </button>
+    <button class="bottom-nav-item tab" data-tab="attendance">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <span>Attendance</span>
+    </button>
+    <button class="bottom-nav-item tab" data-tab="dues">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <span>Dues</span>
+    </button>
+    <button class="bottom-nav-item tab" data-tab="calls">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/></svg>
+      <span>Calls</span>
+    </button>
+  </nav>
+</div>
+<div id="toast" class="toast"></div>
+<div id="manualModal" class="modal hidden">
+  <div class="modal-box">
+    <h3>Add contact</h3>
+    <input id="manualName" class="input" type="text" placeholder="Name">
+    <input id="manualPhone" class="input" type="tel" placeholder="Phone number" style="margin-top:8px;">
+    <div class="btn-row" style="margin-top:12px;">
+      <button id="btnManualSave" class="btn btn-primary">Add</button>
+      <button id="btnManualCancel" class="btn">Cancel</button>
+    </div>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script src="js/config.local.js"></script>
+<script src="js/africastalking.js"></script>
+<script src="js/bmsafrica.js"></script>
+<script src="js/hellio.js"></script>
+<script src="js/arkesel.js"></script>
+<script src="js/app.js"></script>
+<script>
+if ("serviceWorker" in navigator) { navigator.serviceWorker.register("/sw.js").catch(function(){}); }
+(function(){
+  var sb=document.getElementById('sidebar'),ov=document.getElementById('sidebarOverlay'),cl=document.getElementById('sidebarClose'),mn=document.getElementById('btnOpenMenu');
+  function openSb(){sb.classList.add('open');ov.classList.add('open')}
+  function closeSb(){sb.classList.remove('open');ov.classList.remove('open')}
+  if(mn)mn.addEventListener('click',function(e){if(window.innerWidth<1024){e.preventDefault();openSb()}});
+  if(cl)cl.addEventListener('click',closeSb);
+  if(ov)ov.addEventListener('click',closeSb);
+  document.querySelectorAll('.nav-item[data-tab],.bottom-nav-item[data-tab]').forEach(function(b){
+    b.addEventListener('click',function(){if(window.innerWidth<1024)closeSb()});
+  });
+})();
+var _titles={dashboard:'Dashboard',members:'Members',attendance:'Attendance',dues:'Dues',calls:'Bulk Calls',settings:'Settings'};
+document.addEventListener('click',function(e){
+  var t=e.target.closest('[data-tab]');
+  if(t){
+    var n=t.dataset.tab;
+    var pt=document.getElementById('pageTitle');
+    if(pt)pt.textContent=_titles[n]||n;
+    document.querySelectorAll('.bottom-nav-item[data-tab]').forEach(function(b){b.classList.toggle('active',b.dataset.tab===n);});
+  }
+});
+</script>
+</body>
+</html>
