@@ -2,7 +2,7 @@
   "name": "OYEREPA LADIES - Bulk SMS & Calls",
   "short_name": "OYEREPA LADIES",
   "description": "Bulk SMS and bulk voice call manager",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#F7F5FA",
   "theme_color": "#5C1A2A",

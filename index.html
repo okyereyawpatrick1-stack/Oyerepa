@@ -447,7 +447,7 @@
 <script src="js/arkesel.js"></script>
 <script src="js/app.js"></script>
 <script>
-if ("serviceWorker" in navigator) { navigator.serviceWorker.register("/sw.js").catch(function(){}); }
+if ("serviceWorker" in navigator) { navigator.serviceWorker.register("./sw.js").catch(function(){}); }
 (function(){
   var sb=document.getElementById('sidebar'),ov=document.getElementById('sidebarOverlay'),cl=document.getElementById('sidebarClose'),mn=document.getElementById('btnOpenMenu');
   function openSb(){sb.classList.add('open');ov.classList.add('open')}
