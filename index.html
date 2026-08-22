@@ -251,6 +251,8 @@ textarea.input{min-height:50px}
 
 
 
+
+
 <div class="app-layout">
 
   <!-- ============ SIDEBAR ============ -->
@@ -511,9 +513,9 @@ textarea.input{min-height:50px}
             <p class="hint" id="callTextHint">Hellio reads this message aloud automatically.</p>
           </div>
           <div class="field" id="callAudioField">
-            <label>Audio file to send (MP3 or WAV)</label>
+            <label>Or upload an audio file (optional)</label>
             <input id="callAudioFile" class="input" type="file" accept=".mp3,.wav,.m4a,.aac,.ogg,.webm,audio/*">
-            <p class="hint" id="callAudioFileHint">Record one below, tap Download, then pick it here.</p>
+            <p class="hint" id="callAudioFileHint">If you recorded above, it will be sent automatically. Only use this to upload a different file.</p>
           </div>
           <div class="field" id="callFromField">
             <label>Caller ID (only for Africa's Talking)</label>
@@ -524,8 +526,6 @@ textarea.input{min-height:50px}
             <div class="btn-row">
               <button id="btnRecStart" class="btn btn-record">Start Recording</button>
               <button id="btnRecStop" class="btn btn-danger" disabled>Stop</button>
-              <button id="btnRecPlay" class="btn" disabled>Play</button>
-              <button id="btnRecDownload" class="btn" disabled>Download</button>
             </div>
             <p id="recTimer" class="hint">Not recording</p>
           </div>
@@ -716,6 +716,8 @@ textarea.input{min-height:50px}
     </div>
   </div>
 </div>
+
+
 
 
 
@@ -2443,9 +2445,7 @@ textarea.input{min-height:50px}
       mediaRec.ondataavailable = function (e) { if (e.data.size) recChunks.push(e.data); };
       mediaRec.onstop = function () {
         recBlob = new Blob(recChunks, { type: mediaRec.mimeType || "audio/webm" });
-        $("btnRecPlay").disabled = false;
-        $("btnRecDownload").disabled = false;
-        $("recTimer").textContent = "Recording saved (" + Math.round(recBlob.size / 1024) + " KB).";
+        $("recTimer").textContent = "Recording saved (" + Math.round(recBlob.size / 1024) + " KB) \u2014 click Call All Now to send.";
         stream.getTracks().forEach(function (t) { t.stop(); });
       };
       mediaRec.start();
@@ -2466,25 +2466,6 @@ textarea.input{min-height:50px}
     $("btnRecStart").classList.remove("recording");
     $("btnRecStart").textContent = "Record Again";
     $("btnRecStop").disabled = true;
-  }
-
-  function playRec() {
-    if (!recBlob) return;
-    var reader = new FileReader();
-    reader.onload = function () { new Audio(reader.result).play(); };
-    reader.readAsDataURL(recBlob);
-  }
-
-  function downloadRec() {
-    if (!recBlob) return;
-    var reader = new FileReader();
-    reader.onload = function () {
-      var a = document.createElement("a");
-      a.href = reader.result;
-      a.download = "OYEREPA-announcement.webm";
-      a.click();
-    };
-    reader.readAsDataURL(recBlob);
   }
 
   function updateCallCounts() {
@@ -2868,9 +2849,9 @@ textarea.input{min-height:50px}
       $("callTextHint").textContent = "Hellio reads this message aloud automatically.";
       $("callText").placeholder = "Type the message that will be spoken...";
     } else if (p === "arkesel") {
-      $("callAudioFileHint").textContent = "Arkesel sends a recorded audio file. .webm recordings are converted to WAV automatically.";
+      $("callAudioFileHint").textContent = "Record above and click Call â€” it sends automatically. Or upload a different MP3/WAV file.";
     } else if (p === "bmsafrica") {
-      $("callAudioFileHint").textContent = "BMS Africa sends a recorded audio file. .webm recordings are converted to WAV automatically.";
+      $("callAudioFileHint").textContent = "Record above and click Call â€” it sends automatically. Or upload a different MP3/WAV file.";
     } else {
       $("callTextHint").textContent = "Africa's Talking plays audio from your hosted voice call flow.";
     }
@@ -2951,8 +2932,6 @@ textarea.input{min-height:50px}
     $("callAddSelected").addEventListener("click", fillCallRecipients);
     $("btnRecStart").addEventListener("click", startRec);
     $("btnRecStop").addEventListener("click", stopRec);
-    $("btnRecPlay").addEventListener("click", playRec);
-    $("btnRecDownload").addEventListener("click", downloadRec);
     $("btnCallAll").addEventListener("click", callAll);
     $("btnRefreshBalance").addEventListener("click", refreshBalance);
     $("btnTopUp").addEventListener("click", doTopUp);
